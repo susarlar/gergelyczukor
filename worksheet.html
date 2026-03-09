@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leadership in Action Worksheet - Building Leaders</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/worksheet.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar scrolled">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">BL</span>
+        Building Leaders
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html#about" data-i18n="navAbout">About</a></li>
+        <li><a href="index.html#model" data-i18n="navModel">SFGAL Model</a></li>
+        <li><a href="index.html#coach" data-i18n="navCoach">AI Leadership Coach</a></li>
+        <li><a href="worksheet.html" class="active" data-i18n="navWorksheet">Worksheet</a></li>
+        <li><a href="index.html#contact" data-i18n="navContact">Contact</a></li>
+        <li>
+          <div class="lang-switcher">
+            <button class="lang-btn active" data-lang="en">EN</button>
+            <button class="lang-btn" data-lang="tr">TR</button>
+            <button class="lang-btn" data-lang="hu">HU</button>
+          </div>
+        </li>
+      </ul>
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- WORKSHEET HEADER -->
+  <header class="ws-header">
+    <div class="container">
+      <h1 data-i18n="wsTitle">Leadership in Action Worksheet</h1>
+      <p class="ws-header-desc" data-i18n="wsHeaderDesc">Reflect on your AI coaching feedback, identify your strengths and growth areas, and plan your next leadership action. Complete each section and print your answers when finished.</p>
+      <div class="ws-actions">
+        <button class="ws-btn ws-btn-outline" onclick="toggleAllSections(true)" data-i18n="wsExpandAll">Expand All</button>
+        <button class="ws-btn ws-btn-outline" onclick="toggleAllSections(false)" data-i18n="wsCollapseAll">Collapse All</button>
+        <button class="ws-btn ws-btn-primary" onclick="window.print()" data-i18n="wsPrint">&#x1f5b6; Print Worksheet</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- WORKSHEET CONTENT -->
+  <main class="ws-main">
+    <div class="container">
+
+      <!-- SECTION 1: Understanding Your Analysis -->
+      <div class="ws-section open" data-section="1">
+        <button class="ws-section-header" onclick="toggleSection(this)">
+          <div class="ws-section-number">1</div>
+          <div class="ws-section-title">
+            <h2 data-i18n="wsS1Title">Understanding Your AI Analysis</h2>
+            <p data-i18n="wsS1Desc">Your SFGAL AI Leadership Coach analysis has three parts.</p>
+          </div>
+          <span class="ws-chevron">&#x25BC;</span>
+        </button>
+        <div class="ws-section-body">
+          <div class="ws-info-grid">
+            <div class="ws-info-card">
+              <div class="ws-info-icon">&#x1f4ca;</div>
+              <h3 data-i18n="wsMotivTitle">Motivating Capacity</h3>
+              <p data-i18n="wsMotivDesc">The coach acknowledges your situation, then analyzes how you affected your team's need of feeling Capable (Competence), having Control (Autonomy), and feeling Connected (Relatedness) to the goal.</p>
+            </div>
+            <div class="ws-info-card">
+              <div class="ws-info-icon">&#x1f3af;</div>
+              <h3 data-i18n="wsStyleTitle">Your Leadership Style</h3>
+              <p data-i18n="wsStyleDesc">The AI identifies your style as Win-Win, Self-Oriented, Self-Neglecting, or Lose-Lose. The explanations connect your actions directly to this style.</p>
+            </div>
+            <div class="ws-info-card">
+              <div class="ws-info-icon">&#x1f4cb;</div>
+              <h3 data-i18n="wsPlanTitle">Your Coaching Plan</h3>
+              <p data-i18n="wsPlanDesc">The AI provides a practical guide forward. You'll receive 3-4 concrete pieces of advice to help you build a more motivating leadership approach.</p>
+            </div>
+          </div>
+          <div class="ws-tip">
+            <strong data-i18n="wsTipLabel">Tip:</strong>
+            <span data-i18n="wsTip">Copy and save your AI analysis to track your development over time.</span>
+          </div>
+          <div class="ws-field">
+            <label data-i18n="wsPasteLabel">Paste your AI analysis here for reference:</label>
+            <textarea class="ws-textarea ws-textarea-lg" data-i18n="wsPastePlaceholder" data-i18n-attr="placeholder" placeholder="Paste your AI Leadership Coach analysis here..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 2: Elaborate on Your Analysis -->
+      <div class="ws-section" data-section="2">
+        <button class="ws-section-header" onclick="toggleSection(this)">
+          <div class="ws-section-number">2</div>
+          <div class="ws-section-title">
+            <h2 data-i18n="wsS2Title">Elaborate on Your Analysis</h2>
+            <p data-i18n="wsS2Desc">Read your analysis carefully and reflect on these questions.</p>
+          </div>
+          <span class="ws-chevron">&#x25BC;</span>
+        </button>
+        <div class="ws-section-body">
+          <div class="ws-field">
+            <label data-i18n="wsStrengths">a. What are your strengths?</label>
+            <textarea class="ws-textarea" data-i18n="wsStrengthsPlaceholder" data-i18n-attr="placeholder" placeholder="Reflect on what you did well..."></textarea>
+          </div>
+          <div class="ws-field">
+            <label data-i18n="wsImprove">b. What are the areas you should improve?</label>
+            <textarea class="ws-textarea" data-i18n="wsImprovePlaceholder" data-i18n-attr="placeholder" placeholder="Identify areas for growth..."></textarea>
+          </div>
+          <div class="ws-field">
+            <label data-i18n="wsFeelings">c. How do you feel about the AI recommendations? Do you find them helpful? Do they surprise you? Do they make you angry?</label>
+            <textarea class="ws-textarea" data-i18n="wsFeelingsPlaceholder" data-i18n-attr="placeholder" placeholder="Be honest about your reaction to the feedback..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 3: Build on Your Analysis -->
+      <div class="ws-section" data-section="3">
+        <button class="ws-section-header" onclick="toggleSection(this)">
+          <div class="ws-section-number">3</div>
+          <div class="ws-section-title">
+            <h2 data-i18n="wsS3Title">Build on Your Analysis</h2>
+            <p data-i18n="wsS3Desc">Connect your insights to future action.</p>
+          </div>
+          <span class="ws-chevron">&#x25BC;</span>
+        </button>
+        <div class="ws-section-body">
+          <div class="ws-field">
+            <label data-i18n="wsLearned">a. What did you learn from your previous leadership experience that you'll apply in the future?</label>
+            <textarea class="ws-textarea" data-i18n="wsLearnedPlaceholder" data-i18n-attr="placeholder" placeholder="Key takeaways from your experience..."></textarea>
+          </div>
+          <div class="ws-field">
+            <label data-i18n="wsImplement">b. How will you implement the recommendations next time?</label>
+            <textarea class="ws-textarea" data-i18n="wsImplementPlaceholder" data-i18n-attr="placeholder" placeholder="Concrete steps you will take..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 4: Plan Your Next Leadership Action -->
+      <div class="ws-section" data-section="4">
+        <button class="ws-section-header" onclick="toggleSection(this)">
+          <div class="ws-section-number">4</div>
+          <div class="ws-section-title">
+            <h2 data-i18n="wsS4Title">Plan Your Next Leadership Action</h2>
+            <p data-i18n="wsS4Desc">Design your next leadership action for sustainable motivation and employee relations.</p>
+          </div>
+          <span class="ws-chevron">&#x25BC;</span>
+        </button>
+        <div class="ws-section-body">
+          <div class="ws-field">
+            <label data-i18n="wsGoal">a. What is your specific leadership goal?</label>
+            <textarea class="ws-textarea" data-i18n="wsGoalPlaceholder" data-i18n-attr="placeholder" placeholder="Define a clear, specific goal..."></textarea>
+          </div>
+          <div class="ws-field">
+            <label data-i18n="wsImportance">b. How important is this goal for you personally, and why?</label>
+            <textarea class="ws-textarea" data-i18n="wsImportancePlaceholder" data-i18n-attr="placeholder" placeholder="Why does this goal matter to you?"></textarea>
+          </div>
+          <div class="ws-field">
+            <label data-i18n="wsCommunicate">c. How will you communicate this goal to make it meaningful and engaging to your employees? Write your one-paragraph motivation talk using an anecdote or short story to make your message influential.</label>
+            <textarea class="ws-textarea ws-textarea-lg" data-i18n="wsCommunicatePlaceholder" data-i18n-attr="placeholder" placeholder="Write your motivation talk here..."></textarea>
+          </div>
+          <div class="ws-field">
+            <label data-i18n="wsVision">d. How will this action align with your leadership vision?</label>
+            <textarea class="ws-textarea" data-i18n="wsVisionPlaceholder" data-i18n-attr="placeholder" placeholder="Connect this action to your bigger picture..."></textarea>
+          </div>
+          <div class="ws-field">
+            <label data-i18n="wsValues">e. What values will drive this action?</label>
+            <textarea class="ws-textarea" data-i18n="wsValuesPlaceholder" data-i18n-attr="placeholder" placeholder="e.g., integrity, collaboration, growth..."></textarea>
+          </div>
+
+          <!-- Basic Needs Sub-section -->
+          <div class="ws-subsection">
+            <h3 data-i18n="wsBasicNeeds">f. How will you provide BASIC needs for your team:</h3>
+            <div class="ws-field">
+              <label class="ws-label-sub"><span class="ws-label-tag tag-comp" data-i18n="wsCompetence">Competence</span> <span data-i18n="wsCompHint">(training, resources, clear expectations)</span></label>
+              <textarea class="ws-textarea" data-i18n="wsCompPlaceholder" data-i18n-attr="placeholder" placeholder="How will you help your team feel capable?"></textarea>
+            </div>
+            <div class="ws-field">
+              <label class="ws-label-sub"><span class="ws-label-tag tag-auto" data-i18n="wsAutonomy">Autonomy</span> <span data-i18n="wsAutoHint">(choice, ownership, decision-making input)</span></label>
+              <textarea class="ws-textarea" data-i18n="wsAutoPlaceholder" data-i18n-attr="placeholder" placeholder="How will you give your team a sense of control?"></textarea>
+            </div>
+            <div class="ws-field">
+              <label class="ws-label-sub"><span class="ws-label-tag tag-rel" data-i18n="wsRelatedness">Relatedness</span> <span data-i18n="wsRelHint">(connection, teamwork, support)</span></label>
+              <textarea class="ws-textarea" data-i18n="wsRelPlaceholder" data-i18n-attr="placeholder" placeholder="How will you foster connection and belonging?"></textarea>
+            </div>
+          </div>
+
+          <!-- Growth Opportunities Sub-section -->
+          <div class="ws-subsection">
+            <h3 data-i18n="wsGrowth">g. How will you provide GROWTH opportunities:</h3>
+            <div class="ws-field">
+              <label class="ws-label-sub"><span class="ws-label-tag tag-skill" data-i18n="wsSkill">Skill Development</span> <span data-i18n="wsSkillHint">(new challenges, learning)</span></label>
+              <textarea class="ws-textarea" data-i18n="wsSkillPlaceholder" data-i18n-attr="placeholder" placeholder="What new challenges or learning will you offer?"></textarea>
+            </div>
+            <div class="ws-field">
+              <label class="ws-label-sub"><span class="ws-label-tag tag-purpose" data-i18n="wsPurpose">Purpose & Meaning</span> <span data-i18n="wsPurposeHint">(connecting to bigger picture)</span></label>
+              <textarea class="ws-textarea" data-i18n="wsPurposePlaceholder" data-i18n-attr="placeholder" placeholder="How will you connect work to a larger purpose?"></textarea>
+            </div>
+            <div class="ws-field">
+              <label class="ws-label-sub"><span class="ws-label-tag tag-career" data-i18n="wsCareer">Career Advancement</span> <span data-i18n="wsCareerHint">(growth pathways)</span></label>
+              <textarea class="ws-textarea" data-i18n="wsCareerPlaceholder" data-i18n-attr="placeholder" placeholder="What growth pathways will you create?"></textarea>
+            </div>
+          </div>
+
+          <div class="ws-field">
+            <label data-i18n="wsChallenges">h. When facing situational challenges (resource constraints, time pressure, resistance), how will you ensure that both your own and your team's basic and growth needs are met?</label>
+            <textarea class="ws-textarea ws-textarea-lg" data-i18n="wsChallengesPlaceholder" data-i18n-attr="placeholder" placeholder="Think about how you'll adapt under pressure..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMPLETION -->
+      <div class="ws-completion">
+        <div class="ws-completion-inner">
+          <p data-i18n="wsComplete">If you answered all these questions — congratulations and good luck with your next leadership endeavor!</p>
+          <button class="ws-btn ws-btn-primary ws-btn-lg" onclick="window.print()" data-i18n="wsPrintFinal">&#x1f5b6; Print Your Worksheet</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-logo">Building Leaders</div>
+      <ul class="footer-links">
+        <li><a href="index.html#about" data-i18n="navAbout">About</a></li>
+        <li><a href="index.html#model" data-i18n="navModel">SFGAL Model</a></li>
+        <li><a href="index.html#coach" data-i18n="navCoach">AI Leadership Coach</a></li>
+        <li><a href="worksheet.html" data-i18n="navWorksheet">Worksheet</a></li>
+        <li><a href="index.html#contact" data-i18n="navContact">Contact</a></li>
+      </ul>
+      <div class="footer-copy">&copy; 2026 Building Leaders. Gergely Czukor, PhD.</div>
+    </div>
+  </footer>
+
+  <script src="assets/js/translations.js"></script>
+  <script src="assets/js/worksheet-translations.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script>
+    function toggleSection(headerEl) {
+      const section = headerEl.closest('.ws-section');
+      section.classList.toggle('open');
+    }
+
+    function toggleAllSections(open) {
+      document.querySelectorAll('.ws-section').forEach(s => {
+        s.classList.toggle('open', open);
+      });
+    }
+  </script>
+</body>
+</html>

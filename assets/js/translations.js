@@ -65,8 +65,8 @@ const translations = {
     // Worksheet
     worksheetTitle: "Leadership in Action Worksheet",
     worksheetSubtitle: "Plan your next leadership intervention with this practical worksheet.",
-    downloadBtn: "Download Worksheet",
-    downloadFormat: "PDF Format",
+    downloadBtn: "Open Interactive Worksheet",
+    downloadFormat: "Fill in & Print",
 
     // Coach
     coachTitle: "AI Leadership Coach",
@@ -150,8 +150,8 @@ const translations = {
     // Worksheet
     worksheetTitle: "Eylemde Liderlik Çalışma Kağıdı",
     worksheetSubtitle: "Bu pratik çalışma kağıdı ile bir sonraki liderlik müdahalenizi planlayın.",
-    downloadBtn: "Çalışma Kağıdını İndir",
-    downloadFormat: "PDF Formatı",
+    downloadBtn: "İnteraktif Çalışma Kağıdını Aç",
+    downloadFormat: "Doldurun ve Yazdırın",
 
     // Coach
     coachTitle: "YZ Liderlik Koçu",
@@ -235,8 +235,8 @@ const translations = {
     // Worksheet
     worksheetTitle: "Vezetés a Gyakorlatban Munkalap",
     worksheetSubtitle: "Tervezd meg a következő vezetői beavatkozásodat ezzel a gyakorlati munkalappal.",
-    downloadBtn: "Munkalap Letöltése",
-    downloadFormat: "PDF Formátum",
+    downloadBtn: "Interaktív Munkalap Megnyitása",
+    downloadFormat: "Kitöltés és Nyomtatás",
 
     // Coach
     coachTitle: "MI Vezetői Coach",

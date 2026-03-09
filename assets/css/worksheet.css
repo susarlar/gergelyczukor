@@ -1,0 +1,438 @@
+/* ===== WORKSHEET PAGE ===== */
+
+.ws-header {
+  padding: 8rem 0 3rem;
+  background: linear-gradient(160deg, var(--bg-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+  color: white;
+  text-align: center;
+}
+
+.ws-header h1 {
+  color: white;
+  margin-bottom: 1rem;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+}
+
+.ws-header-desc {
+  color: var(--text-on-dark);
+  max-width: 640px;
+  margin: 0 auto 2rem;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.ws-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.ws-btn {
+  border: none;
+  border-radius: 100px;
+  padding: 0.7rem 1.5rem;
+  font-family: var(--font);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.ws-btn-primary {
+  background: var(--accent);
+  color: var(--bg-dark);
+}
+
+.ws-btn-primary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.ws-btn-outline {
+  background: rgba(255,255,255,0.1);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+.ws-btn-outline:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.ws-btn-lg {
+  padding: 0.9rem 2.2rem;
+  font-size: 1rem;
+}
+
+/* MAIN */
+.ws-main {
+  padding: 2.5rem 0 4rem;
+  background: var(--bg);
+}
+
+/* SECTIONS */
+.ws-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+  transition: box-shadow var(--transition);
+}
+
+.ws-section:hover {
+  box-shadow: var(--shadow);
+}
+
+.ws-section-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.5rem 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font);
+  transition: background var(--transition);
+}
+
+.ws-section-header:hover {
+  background: rgba(0,0,0,0.015);
+}
+
+.ws-section-number {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.ws-section-title {
+  flex: 1;
+}
+
+.ws-section-title h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.15rem;
+}
+
+.ws-section-title p {
+  font-size: 0.88rem;
+  color: var(--text-light);
+  margin: 0;
+}
+
+.ws-chevron {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  transition: transform var(--transition);
+  flex-shrink: 0;
+}
+
+.ws-section.open .ws-chevron {
+  transform: rotate(180deg);
+}
+
+/* Section Body - Expandable */
+.ws-section-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+  padding: 0 2rem;
+}
+
+.ws-section.open .ws-section-body {
+  max-height: 4000px;
+  padding: 0.5rem 2rem 2rem;
+}
+
+/* Info Grid (Section 1) */
+.ws-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.ws-info-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.ws-info-icon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.ws-info-card h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.ws-info-card p {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Tip box */
+.ws-tip {
+  background: rgba(232, 168, 56, 0.08);
+  border-left: 3px solid var(--accent);
+  padding: 0.9rem 1.25rem;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+/* Form Fields */
+.ws-field {
+  margin-bottom: 1.5rem;
+}
+
+.ws-field label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.ws-textarea {
+  width: 100%;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font);
+  font-size: 0.93rem;
+  color: var(--text);
+  background: var(--bg);
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.6;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.ws-textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(232, 168, 56, 0.1);
+}
+
+.ws-textarea-lg {
+  min-height: 150px;
+}
+
+.ws-textarea::placeholder {
+  color: #aab4c2;
+}
+
+/* Sub-sections */
+.ws-subsection {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.ws-subsection h3 {
+  font-size: 1rem;
+  margin-bottom: 1.25rem;
+  color: var(--primary);
+}
+
+.ws-subsection .ws-field:last-child {
+  margin-bottom: 0;
+}
+
+.ws-label-sub {
+  display: flex !important;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.ws-label-tag {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 100px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.tag-comp { background: #d4f5e5; color: #1a7a4c; }
+.tag-auto { background: #ffecd2; color: #b8730a; }
+.tag-rel { background: #dbeafe; color: #2563eb; }
+.tag-skill { background: #ede9fe; color: #7c3aed; }
+.tag-purpose { background: #fce7f3; color: #be185d; }
+.tag-career { background: #e0f2fe; color: #0369a1; }
+
+.ws-label-sub span:not(.ws-label-tag) {
+  font-weight: 400;
+  color: var(--text-light);
+  font-size: 0.88rem;
+}
+
+/* Completion */
+.ws-completion {
+  text-align: center;
+  padding: 2.5rem 0 0;
+}
+
+.ws-completion-inner {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  color: white;
+}
+
+.ws-completion-inner p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-on-dark);
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  .navbar, .footer, .ws-actions, .ws-completion .ws-btn,
+  .ws-chevron, .ws-section-number, .lang-switcher, .nav-toggle {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+    font-size: 11pt;
+  }
+
+  .ws-header {
+    background: none !important;
+    color: black;
+    padding: 0.5cm 0 0.5cm;
+    border-bottom: 2px solid #333;
+  }
+
+  .ws-header h1 {
+    color: black;
+    font-size: 18pt;
+  }
+
+  .ws-header-desc {
+    color: #444;
+    font-size: 10pt;
+  }
+
+  .ws-main {
+    padding: 0.5cm 0;
+  }
+
+  .ws-section {
+    border: 1px solid #ccc;
+    margin-bottom: 0.3cm;
+    page-break-inside: avoid;
+    box-shadow: none !important;
+  }
+
+  .ws-section-body {
+    max-height: none !important;
+    padding: 0.3cm 0.5cm 0.5cm !important;
+    overflow: visible !important;
+  }
+
+  .ws-section-header {
+    padding: 0.3cm 0.5cm;
+    border-bottom: 1px solid #eee;
+  }
+
+  .ws-textarea {
+    border: 1px solid #ccc;
+    min-height: 2cm !important;
+    background: white;
+    font-size: 10pt;
+  }
+
+  .ws-textarea-lg {
+    min-height: 3.5cm !important;
+  }
+
+  .ws-info-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.3cm;
+  }
+
+  .ws-info-card {
+    padding: 0.3cm;
+  }
+
+  .ws-info-card p {
+    font-size: 8pt;
+  }
+
+  .ws-subsection {
+    padding: 0.3cm;
+  }
+
+  .ws-completion-inner {
+    background: none !important;
+    color: black;
+    border: 2px solid #333;
+    padding: 0.5cm;
+  }
+
+  .ws-completion-inner p {
+    color: black;
+  }
+
+  .container {
+    max-width: 100%;
+    padding: 0 0.5cm;
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .ws-header {
+    padding: 7rem 0 2rem;
+  }
+
+  .ws-section-header {
+    padding: 1.25rem 1.25rem;
+  }
+
+  .ws-section-body {
+    padding: 0 1.25rem;
+  }
+
+  .ws-section.open .ws-section-body {
+    padding: 0.5rem 1.25rem 1.5rem;
+  }
+
+  .ws-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ws-subsection {
+    padding: 1rem;
+  }
+}

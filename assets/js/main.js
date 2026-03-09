@@ -98,17 +98,39 @@ window.addEventListener('scroll', () => {
 });
 
 // ===== CONTACT FORM =====
-document.querySelector('.contact-form')?.addEventListener('submit', (e) => {
+document.querySelector('.contact-form')?.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const btn = e.target.querySelector('.submit-btn');
+  const form = e.target;
+  const btn = form.querySelector('.submit-btn');
   const originalText = btn.textContent;
-  btn.textContent = '✓';
-  btn.style.background = '#1a7a4c';
+  btn.textContent = '...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('https://formspree.io/f/xvzwzlel', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(form),
+    });
+
+    if (res.ok) {
+      btn.textContent = '✓';
+      btn.style.background = '#1a7a4c';
+      form.reset();
+    } else {
+      btn.textContent = '✗';
+      btn.style.background = '#dc2626';
+    }
+  } catch {
+    btn.textContent = '✗';
+    btn.style.background = '#dc2626';
+  }
+
   setTimeout(() => {
     btn.textContent = originalText;
     btn.style.background = '';
-    e.target.reset();
-  }, 2000);
+    btn.disabled = false;
+  }, 2500);
 });
 
 // ===== INIT =====

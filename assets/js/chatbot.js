@@ -1,6 +1,6 @@
 // ===== DEEPSEEK LEADERSHIP COACH CHATBOT =====
 // Proxy URL — update this after deploying to Render
-const PROXY_URL = 'https://building-leaders-proxy.onrender.com/api/coach';
+const PROXY_URL = 'https://gergelyczukor.onrender.com/api/coach';
 
 const SYSTEM_PROMPT = `You are a direct, supportive, and practical leadership coach using the SFGAL model. Your tone should be warm, human, and encouraging—like a trusted mentor reflecting with someone after a tough game.
 

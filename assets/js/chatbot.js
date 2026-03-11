@@ -2,83 +2,200 @@
 // Proxy URL — update this after deploying to Render
 const PROXY_URL = 'https://gergelyczukor.onrender.com/api/coach';
 
-const SYSTEM_PROMPT = `You are a direct, supportive, and practical leadership coach using the SFGAL model. Your tone should be warm, human, and encouraging—like a trusted mentor reflecting with someone after a tough game.
+const SYSTEM_PROMPT = `You are a direct, supportive, and practical leadership coach using the SFGAL (Self-and-Follower Goal-Aware Leadership) model. Your tone should be warm, human, and encouraging—like a trusted mentor reflecting with someone after a tough game.
 
-Start every analysis by truly connecting with the leader's experience. Acknowledge the courage it takes to share a story that didn't go perfectly and validate their positive intent before any analysis.
+Start every analysis by truly connecting with the leader's experience. Acknowledge the courage it takes to share their story and validate their positive intent before any analysis.
 
-Note: The 'Quality' score provided is the leader's own rating of how effectively they motivated their team's effort, from 1-10. Your core task is to analyze the leader's capacity to motivate their team by addressing three basic human needs at work:
-- *Feeling capable* (Did people feel equipped and confident to do the work?)
-- *Feeling ownership* (Did they have a real say in how the work gets done?)
-- *Feeling connected* (Did they see how their effort mattered to the team or the bigger purpose?)
+You will receive the leader's answers to 12 questions covering: their goal, urgency (1-10), how they framed the task for the team, the team's emotional response, their self-rated motivation effectiveness (1-10), whether the goal was achieved, their personal values, vision alignment, leadership vision, and the benefits for the team, the leader, and the organization.
 
-If the leader describes facing disengagement, missed commitments, or disrespect, address it directly and constructively. Validate that this is a real leadership challenge. Frame any 'toughness' they used not as punishment, but as a tool to refocus attention on shared goals. Ask yourself: Did their firmness clarify expectations? Did it protect the goal? Was it followed by an invitation to reconnect? If so, this can be a legitimate part of Win-Win leadership — because achieving the goal matters, and leaders have a right and responsibility to expect commitment. If the toughness was reactive or personal, gently guide them toward more goal-centered alternatives.
+Your core task is to analyze the leader's capacity to motivate their team by addressing three basic psychological needs at work:
+- *Competence (Yetkinlik)* — Did people feel equipped and confident to do the work? Did the leader explain why the task matters and what they could learn?
+- *Autonomy (Özerklik)* — Did they have a real say in how the work gets done? Was there space for choice and ownership?
+- *Relatedness (İlişkisellik)* — Did they see how their effort mattered to the team or the bigger purpose? Was there a sense of connection and shared mission?
+
+When these three needs are not met, people tend to comply only due to external pressure, leading to reluctance or resistance.
 
 Structure your feedback in three clear sections:
-1. **Motivation Capacity Analysis:** Start by connecting and appreciating their intent. Use phrases like 'I hear that...' or 'It's clear that...'. Then, analyze their actions using plain language: Did people feel *capable*? Did they feel *ownership*? Did they feel *connected* to the purpose? If they faced resistance, include how their response affected these feelings. Avoid academic jargon—just describe what happened in everyday words.
+1. **Motivation Capacity Analysis:** Start by connecting and appreciating their intent. Use phrases like 'I hear that...' or 'It's clear that...'. Then analyze their actions through the lens of Competence, Autonomy, and Relatedness. Use the team's emotional response and the leader's self-rated motivation score to calibrate your analysis. Avoid academic jargon—describe what happened in everyday words.
 2. **Leadership Style:** Based on the analysis, identify the style using the SFGAL terms: *Win-Win*, *Self-Oriented*, *Self-Neglecting*, or *Lose-Lose*. Be precise:
-   - *Self-Neglecting* means the leader sacrifices their own goals, but followers are still winning (developing, growing, achieving).
-   - *Lose-Lose* means both sides lose — the goal is not achieved, AND followers are not developing or growing from the experience. If the leader accepted disengagement without response and no one grew, that is Lose-Lose.
-   If the leader used constructive firmness to protect the goal while still respecting the person, acknowledge this as a Win-Win approach. If the toughness was reactive or one-sided, name the style with empathy.
-3. **Your Coaching Plan:** Frame this as a supportive path forward. Give 3-4 practical, plain-language steps. If the leader faced disengagement, include suggestions like: 'Name the gap directly, then ask what they need to succeed' or 'Set a clear expectation, then follow up with genuine curiosity about what's getting in the way.' Keep suggestions concrete and usable.
+   - *Win-Win* means both the leader's goals AND the followers' needs (growth, development, motivation) are served.
+   - *Self-Oriented* means the leader focused on achieving the goal but overlooked the team's intrinsic motivation needs.
+   - *Self-Neglecting* means the leader sacrificed their own goals, but followers are still winning.
+   - *Lose-Lose* means both sides lose — the goal is not achieved, AND followers are not developing or growing.
+   Use the vision alignment answer and stated values to contextualize the style — help them see whether their actions matched their intentions.
+3. **Your Coaching Plan:** Frame this as a supportive path forward. Give 3 practical, plain-language steps mapped to the three needs:
+   - One tip to enhance *Competence* (e.g., spend 30 seconds explaining context and learning opportunity)
+   - One tip to enhance *Autonomy* (e.g., ask "How would you approach this?" instead of just assigning)
+   - One tip to enhance *Relatedness* (e.g., connect the task to the team's shared mission and offer support)
+   Keep suggestions concrete, usable, and tied to their specific situation.
 
-Keep the total analysis under 500 words, and keep the tone warm throughout.`;
+Keep the total analysis under 600 words, and keep the tone warm throughout. Write in the same language the user's answers are written in.`;
 
-// Step definitions with translations
+// Step definitions with translations — aligned with Landbot flow
 const steps = [
   {
     id: 'leader_goal',
-    en: { question: 'What was the goal you were trying to achieve with your team?', placeholder: 'e.g., Complete the quarterly report by Friday...' },
-    tr: { question: 'Ekibinizle birlikte neyi başarmaya çalışıyordunuz?', placeholder: 'örn., Çeyreklik raporu Cuma gününe kadar tamamlamak...' },
-    hu: { question: 'Mi volt a cél, amit a csapatoddal el akartál érni?', placeholder: 'pl., A negyedéves jelentés elkészítése péntekig...' },
+    en: {
+      question: 'Think of a recent situation where you wanted your team to achieve an important goal. What was the specific goal you needed them to achieve?<br><br><em>Important: Any recent leadership challenge — success or a learning experience — is welcome!</em>',
+      placeholder: 'Describe the specific goal...',
+    },
+    tr: {
+      question: 'Yakın zamanda ekibinizin önemli bir hedefe ulaşmasını istediğiniz bir durumu düşünün. Ulaşmalarını istediğiniz spesifik hedef neydi?<br><br><em>Önemli: Herhangi bir yakın tarihli liderlik deneyimi — ister başarı ister öğrenme fırsatı olsun — değerlidir!</em>',
+      placeholder: 'Spesifik hedefi açıklayın...',
+    },
+    hu: {
+      question: 'Gondolj egy közelmúltbeli helyzetre, amikor azt akartad, hogy a csapatod elérjen egy fontos célt. Mi volt az a konkrét cél, amit el kellett érniük?<br><br><em>Fontos: Bármilyen közelmúltbeli vezetői kihívás — legyen siker vagy tanulási tapasztalat — hasznos!</em>',
+      placeholder: 'Írd le a konkrét célt...',
+    },
   },
   {
     id: 'leader_urgency',
-    en: { question: 'How urgent was this goal? What was at stake?', placeholder: 'e.g., High urgency — client deadline was approaching...' },
-    tr: { question: 'Bu hedef ne kadar acildi? Risk altında olan neydi?', placeholder: 'örn., Çok acildi — müşterinin teslim tarihi yaklaşıyordu...' },
-    hu: { question: 'Mennyire volt sürgős ez a cél? Mi forgott kockán?', placeholder: 'pl., Nagyon sürgős — közeledett az ügyfél határideje...' },
-  },
-  {
-    id: 'leader_motivation_strategy',
-    en: { question: 'What strategy did you use to motivate your team?', placeholder: 'e.g., I held a team meeting to explain the importance and assigned clear roles...' },
-    tr: { question: 'Ekibinizi motive etmek için ne yaptınız?', placeholder: 'örn., Konunun önemini anlatmak için toplantı yaptım ve herkese net görevler verdim...' },
-    hu: { question: 'Milyen stratégiát használtál a csapatod motiválására?', placeholder: 'pl., Csapatmegbeszélést tartottam a fontosság elmagyarázására és egyértelmű szerepeket osztottam ki...' },
+    type: 'range',
+    en: { question: 'How urgent was achieving this goal for you personally, on a scale of 1-10?' },
+    tr: { question: 'Bu hedefe ulaşmak sizin için kişisel olarak ne kadar aciliyet taşıyordu? (1-10 arası)' },
+    hu: { question: 'Mennyire volt sürgős számodra személyesen ennek a célnak az elérése? (1-10 skálán)' },
   },
   {
     id: 'framing_for_team_benefit',
-    en: { question: 'How did you frame this goal as beneficial for the team?', placeholder: 'e.g., I explained how completing this would give everyone more autonomy next quarter...' },
-    tr: { question: 'Bu hedefin ekibe olan faydasını nasıl anlattınız?', placeholder: 'örn., Bunu başarırsak gelecek dönem herkesin daha bağımsız çalışabileceğini söyledim...' },
-    hu: { question: 'Hogyan keretezted ezt a célt a csapat számára előnyösként?', placeholder: 'pl., Elmagyaráztam, hogy ennek teljesítése a következő negyedévben mindenkinek nagyobb autonómiát ad...' },
+    en: {
+      question: 'How did you frame the goal or design the task to make it beneficial or meaningful for your team members?',
+      placeholder: 'e.g., I explained how completing this would give everyone more autonomy...',
+    },
+    tr: {
+      question: 'Ekibiniz için faydalı veya anlamlı olması amacıyla hedefi nasıl çerçevelendirdiniz veya görevi nasıl tasarladınız?',
+      placeholder: 'örn., Bunu başarırsak herkesin daha bağımsız çalışabileceğini anlattım...',
+    },
+    hu: {
+      question: 'Hogyan keretezted a célt vagy tervezted meg a feladatot, hogy az előnyös vagy értelmes legyen a csapattagjaid számára?',
+      placeholder: 'pl., Elmagyaráztam, hogy ennek teljesítése mindenkinek nagyobb autonómiát ad...',
+    },
   },
   {
-    id: 'leaderships_action_quality_score',
+    id: 'team_emotional_response',
+    en: {
+      question: 'What was your team\'s immediate emotional response to your request to achieve the goal? (e.g., Enthusiastic, Reluctant, Empowered, Skeptical)',
+      placeholder: 'e.g., They were initially skeptical but became more engaged after I explained the reasoning...',
+    },
+    tr: {
+      question: 'Ekibinizin, hedefe ulaşma talebinize karşı anlık duygusal tepkisi ne oldu? (Örn: Coşkulu, İsteksiz, Güçlenmiş, Şüpheci)',
+      placeholder: 'örn., Başta şüpheciydiler ama nedenlerimi açıklayınca daha ilgili oldular...',
+    },
+    hu: {
+      question: 'Mi volt a csapatod azonnali érzelmi reakciója a cél elérésére vonatkozó kérésedre? (pl. Lelkes, Vonakodó, Felhatalmazott, Szkeptikus)',
+      placeholder: 'pl., Eleinte szkeptikusak voltak, de az indoklás után elkötelezettebbek lettek...',
+    },
+  },
+  {
+    id: 'motivation_quality_score',
     type: 'range',
-    en: { question: 'On a scale of 1-10, how effectively did you motivate your team\'s effort?' },
-    tr: { question: '1-10 arasında puanlayın: Ekibinizi ne kadar iyi motive edebildiniz?' },
-    hu: { question: 'Egy 1-10-es skálán mennyire hatékonyan motiváltad a csapatod erőfeszítését?' },
-  },
-  {
-    id: 'leader_values2',
-    en: { question: 'What are your core leadership values?', placeholder: 'e.g., Integrity, collaboration, growth, transparency...' },
-    tr: { question: 'Liderlik anlayışınızın temelindeki değerler nelerdir?', placeholder: 'örn., dürüstlük, iş birliği, gelişim, şeffaflık...' },
-    hu: { question: 'Mik a legfontosabb vezetői értékeid?', placeholder: 'pl., Integritás, együttműködés, növekedés, átláthatóság...' },
-  },
-  {
-    id: 'leader_vision2',
-    en: { question: 'What is your leadership vision?', placeholder: 'e.g., To build a team that delivers excellent results while growing professionally...' },
-    tr: { question: 'Lider olarak vizyonunuzu nasıl tanımlarsınız?', placeholder: 'örn., Hem profesyonel olarak gelişen hem de mükemmel sonuçlar üreten bir ekip kurmak...' },
-    hu: { question: 'Mi a vezetői víziód?', placeholder: 'pl., Olyan csapat építése, amely kiváló eredményeket ér el, miközben szakmailag fejlődik...' },
+    en: { question: 'To what extent were you able to motivate your team to put in high effort toward achieving this goal, on a scale of 1-10?' },
+    tr: { question: 'Ekibinizi bu hedefe ulaşmak için yüksek çaba göstermeye ne ölçüde motive edebildiniz? (1-10 arası)' },
+    hu: { question: 'Milyen mértékben tudtad motiválni a csapatodat, hogy nagy erőfeszítést tegyenek a cél eléréséért? (1-10 skálán)' },
   },
   {
     id: 'achievement',
-    en: { question: 'What was the outcome? Was the goal achieved?', placeholder: 'e.g., We completed the report but missed the deadline by one day...' },
-    tr: { question: 'Sonuç nasıl oldu? Hedefe ulaşabildiniz mi?', placeholder: 'örn., Raporu tamamladık ama teslim tarihini bir gün geçirdik...' },
-    hu: { question: 'Mi lett az eredmény? Sikerült elérni a célt?', placeholder: 'pl., Elkészítettük a jelentést, de egy napot csúsztunk a határidőhöz képest...' },
+    en: {
+      question: 'Was the goal ultimately achieved? Explain if it was fully or partially achieved, or if it was not achieved.',
+      placeholder: 'e.g., We achieved it partially — we hit the revenue target but missed the timeline...',
+    },
+    tr: {
+      question: 'Hedefe sonuçta ulaşıldı mı? Tamamen mi, kısmen mi ulaşıldığını veya ulaşılamadığını açıklayın.',
+      placeholder: 'örn., Kısmen ulaşıldı — gelir hedefini tutturduk ama takvimi kaçırdık...',
+    },
+    hu: {
+      question: 'Végül elérted a célt? Magyarázd el, hogy teljesen, részlegesen sikerült-e, vagy nem sikerült.',
+      placeholder: 'pl., Részben sikerült — a bevételi célt elértük, de a határidőt nem...',
+    },
   },
   {
-    id: 'toughness',
-    en: { question: 'Did you need to be firm or tough at any point? If so, describe what happened.', placeholder: 'e.g., I had to directly address a team member who was disengaged and missing deadlines...' },
-    tr: { question: 'Süreçte sert veya kararlı davranmanız gereken bir an oldu mu? Olduysa neler yaşandı?', placeholder: 'örn., İşe ilgisiz kalan ve sürekli geciken bir ekip üyesiyle doğrudan konuşmam gerekti...' },
-    hu: { question: 'Kellett bármikor határozottnak vagy keménynek lenned? Ha igen, írd le, mi történt.', placeholder: 'pl., Közvetlenül kellett foglalkoznom egy csapattaggal, aki nem volt elkötelezett és határidőket mulasztott...' },
+    id: 'leader_values',
+    en: {
+      question: 'What personal values were most important to you in this leadership situation? (e.g., collaboration, ambition, integrity, support)',
+      placeholder: 'e.g., Integrity, collaboration, growth...',
+    },
+    tr: {
+      question: 'Bu liderlik durumunda sizin için en önemli olan kişisel değerler hangileriydi? (Örn: iş birliği, hırs, dürüstlük, destek)',
+      placeholder: 'örn., Dürüstlük, iş birliği, gelişim...',
+    },
+    hu: {
+      question: 'Milyen személyes értékek voltak a legfontosabbak számodra ebben a vezetői helyzetben? (pl. együttműködés, ambíció, integritás, támogatás)',
+      placeholder: 'pl., Integritás, együttműködés, fejlődés...',
+    },
+  },
+  {
+    id: 'vision_alignment',
+    en: {
+      question: 'Did your approach in this situation feel aligned with your broader leadership vision?',
+      placeholder: 'e.g., Yes, I felt my actions reflected my values, though I could have communicated more...',
+    },
+    tr: {
+      question: 'Bu durumdaki yaklaşımınız, daha geniş liderlik vizyonunuzla örtüşüyor muydu?',
+      placeholder: 'örn., Evet, eylemlerimin değerlerimi yansıttığını hissettim, ama daha fazla iletişim kurabilirdim...',
+    },
+    hu: {
+      question: 'Úgy érezted, hogy a megközelítésed ebben a helyzetben összhangban volt a tágabb vezetői víziódddal?',
+      placeholder: 'pl., Igen, úgy éreztem, a tetteim tükrözték az értékeimet, bár többet kommunikálhattam volna...',
+    },
+  },
+  {
+    id: 'leader_vision',
+    en: {
+      question: 'In a nutshell, what is your leadership vision?',
+      placeholder: 'e.g., To build a team that delivers excellent results while growing professionally...',
+    },
+    tr: {
+      question: 'Kısacası, liderlik vizyonunuz nedir?',
+      placeholder: 'örn., Hem profesyonel olarak gelişen hem de mükemmel sonuçlar üreten bir ekip kurmak...',
+    },
+    hu: {
+      question: 'Dióhéjban, mi a vezetői víziód?',
+      placeholder: 'pl., Olyan csapat építése, amely kiváló eredményeket ér el, miközben szakmailag fejlődik...',
+    },
+  },
+  {
+    id: 'team_benefit',
+    en: {
+      question: 'What was the benefit, if any, your team members gained from your leadership in this specific situation?',
+      placeholder: 'e.g., They gained confidence in handling high-pressure situations...',
+    },
+    tr: {
+      question: 'Bu spesifik durumda, ekip üyeleriniz sizin liderliğinizden ne gibi bir fayda sağladı (varsa)?',
+      placeholder: 'örn., Yüksek baskı altında çalışma konusunda özgüven kazandılar...',
+    },
+    hu: {
+      question: 'Milyen előnye származott, ha volt, a csapattagjaidnak a te vezetésedből ebben a konkrét helyzetben?',
+      placeholder: 'pl., Magabiztosságot szereztek a nyomás alatti helyzetek kezelésében...',
+    },
+  },
+  {
+    id: 'leader_benefit',
+    en: {
+      question: 'What was the primary benefit for you as the leader?',
+      placeholder: 'e.g., I learned the importance of giving my team more ownership...',
+    },
+    tr: {
+      question: 'Lider olarak sizin için sağlanan temel fayda neydi?',
+      placeholder: 'örn., Ekibime daha fazla sahiplenme hakkı tanımanın önemini öğrendim...',
+    },
+    hu: {
+      question: 'Mi volt a fő előny számodra mint vezető?',
+      placeholder: 'pl., Megtanultam, milyen fontos nagyobb felelősséget adni a csapatnak...',
+    },
+  },
+  {
+    id: 'org_benefit',
+    en: {
+      question: 'How did the organization benefit?',
+      placeholder: 'e.g., We delivered the project on time, improving client trust...',
+    },
+    tr: {
+      question: 'Kuruluş bu durumdan nasıl fayda sağladı?',
+      placeholder: 'örn., Projeyi zamanında teslim ettik, müşteri güvenini artırdık...',
+    },
+    hu: {
+      question: 'Hogyan profitált ebből a szervezet?',
+      placeholder: 'pl., Időben szállítottuk a projektet, javítva az ügyfélbizalmat...',
+    },
   },
 ];
 
@@ -115,7 +232,7 @@ class LeadershipCoach {
   t(key) {
     const labels = {
       en: {
-        welcome: "Welcome! I'm your AI Leadership Coach. I'll ask you a few questions about a recent leadership experience, then provide personalized feedback based on the SFGAL model.",
+        welcome: "Welcome! I'm your AI Leadership Coach. I'll ask you a series of questions about a recent leadership experience, then generate a personalized AI analysis based on the SFGAL model.",
         start: 'Start Analysis',
         next: 'Next',
         submit: 'Get My Analysis',
@@ -125,7 +242,7 @@ class LeadershipCoach {
         stepOf: 'Question {current} of {total}',
       },
       tr: {
-        welcome: "Hoş geldiniz! Ben yapay zeka destekli liderlik koçunuzum. Size yakın zamanda yaşadığınız bir liderlik deneyimiyle ilgili birkaç soru soracağım, ardından SFGAL modeline dayalı kişisel geri bildiriminizi hazırlayacağım.",
+        welcome: "Hoş geldiniz! Ben yapay zeka destekli liderlik koçunuzum. Size yakın zamanda yaşadığınız bir liderlik deneyimiyle ilgili bir dizi soru soracağım, ardından SFGAL modeline dayalı kişiselleştirilmiş yapay zeka analizinizi oluşturacağım.",
         start: 'Başlayalım',
         next: 'Devam',
         submit: 'Analizimi Göster',
@@ -135,7 +252,7 @@ class LeadershipCoach {
         stepOf: 'Soru {current} / {total}',
       },
       hu: {
-        welcome: "Üdvözlöm! Én vagyok az MI Vezetői Coachod. Felteszek néhány kérdést egy közelmúltbeli vezetői tapasztalatodról, majd személyre szabott visszajelzést adok az SFGAL modell alapján.",
+        welcome: "Üdvözlöm! Én vagyok az MI Vezetői Coachod. Felteszek egy sor kérdést egy közelmúltbeli vezetői tapasztalatodról, majd személyre szabott MI elemzést készítek az SFGAL modell alapján.",
         start: 'Elemzés Indítása',
         next: 'Következő',
         submit: 'Elemzés Kérése',
@@ -287,7 +404,7 @@ class LeadershipCoach {
     this.inputArea.innerHTML = '';
     const thinkingBubble = this.addMessage(`<div class="thinking-dots">${this.t('thinking')}<span class="dots"><span>.</span><span>.</span><span>.</span></span></div>`);
 
-    const userMessage = `Goal: ${this.answers.leader_goal}. Urgency: ${this.answers.leader_urgency}. Strategy: ${this.answers.leader_motivation_strategy}. Framing: ${this.answers.framing_for_team_benefit}. Quality: ${this.answers.leaderships_action_quality_score}. Values: ${this.answers.leader_values2}. Vision: ${this.answers.leader_vision2}. Outcome: ${this.answers.achievement}. Toughness: ${this.answers.toughness}.`;
+    const userMessage = `Goal: ${this.answers.leader_goal}. Urgency (1-10): ${this.answers.leader_urgency}. Framing for team benefit: ${this.answers.framing_for_team_benefit}. Team's emotional response: ${this.answers.team_emotional_response}. Motivation quality (1-10): ${this.answers.motivation_quality_score}. Achievement: ${this.answers.achievement}. Personal values: ${this.answers.leader_values}. Vision alignment: ${this.answers.vision_alignment}. Leadership vision: ${this.answers.leader_vision}. Team benefit: ${this.answers.team_benefit}. Leader benefit: ${this.answers.leader_benefit}. Organization benefit: ${this.answers.org_benefit}.`;
 
     try {
       const response = await fetch(PROXY_URL, {

@@ -2,34 +2,30 @@
 // Proxy URL — update this after deploying to Render
 const PROXY_URL = 'https://gergelyczukor.onrender.com/api/coach';
 
-const SYSTEM_PROMPT = `You are a direct, supportive, and practical leadership coach using the SFGAL (Self-and-Follower Goal-Aware Leadership) model. Your tone should be warm, human, and encouraging—like a trusted mentor reflecting with someone after a tough game.
+const SYSTEM_PROMPT = `You are a direct, supportive, and practical leadership coach using the SFGAL model. Your tone should be warm, human, and encouraging—like a trusted mentor reflecting with someone after a tough game.
 
-Start every analysis by truly connecting with the leader's experience. Acknowledge the courage it takes to share their story and validate their positive intent before any analysis.
+Start every analysis by truly connecting with the leader's experience. Acknowledge the courage it takes to share a story that didn't go perfectly and validate their positive intent before any analysis.
 
-You will receive the leader's answers to 12 questions covering: their goal, urgency (1-10), how they framed the task for the team, the team's emotional response, their self-rated motivation effectiveness (1-10), whether the goal was achieved, their personal values, vision alignment, leadership vision, and the benefits for the team, the leader, and the organization.
+Note: The 'Quality' score provided is the leader's own rating of how effectively they motivated their team's effort, from 1-10. Your core task is to analyze the leader's capacity to motivate their team by addressing three basic human needs at work:
+- **Feeling capable** (Did people feel equipped and confident to do the work?)
+- **Feeling ownership** (Did they have a real say in how the work gets done?)
+- **Feeling connected** (Did they see how their effort mattered to the team or the bigger purpose?)
 
-Your core task is to analyze the leader's capacity to motivate their team by addressing three basic psychological needs at work:
-- *Competence (Yetkinlik)* — Did people feel equipped and confident to do the work? Did the leader explain why the task matters and what they could learn?
-- *Autonomy (Özerklik)* — Did they have a real say in how the work gets done? Was there space for choice and ownership?
-- *Relatedness (İlişkisellik)* — Did they see how their effort mattered to the team or the bigger purpose? Was there a sense of connection and shared mission?
-
-When these three needs are not met, people tend to comply only due to external pressure, leading to reluctance or resistance.
+**If the leader describes facing disengagement, missed commitments, or disrespect, address it directly and constructively. Validate that this is a real leadership challenge. Frame any 'toughness' they used not as punishment, but as a tool to refocus attention on shared goals. Ask yourself: Did their firmness clarify expectations? Did it protect the goal? Was it followed by an invitation to reconnect? If so, this can be a legitimate part of Win-Win leadership — because achieving the goal matters, and leaders have a right and responsibility to expect commitment. If the toughness was reactive or personal, gently guide them toward more goal-centered alternatives.**
 
 Structure your feedback in three clear sections:
-1. **Motivation Capacity Analysis:** Start by connecting and appreciating their intent. Use phrases like 'I hear that...' or 'It's clear that...'. Then analyze their actions through the lens of Competence, Autonomy, and Relatedness. Use the team's emotional response and the leader's self-rated motivation score to calibrate your analysis. Avoid academic jargon—describe what happened in everyday words.
-2. **Leadership Style:** Based on the analysis, identify the style using the SFGAL terms: *Win-Win*, *Self-Oriented*, *Self-Neglecting*, or *Lose-Lose*. Be precise:
-   - *Win-Win* means both the leader's goals AND the followers' needs (growth, development, motivation) are served.
-   - *Self-Oriented* means the leader focused on achieving the goal but overlooked the team's intrinsic motivation needs.
-   - *Self-Neglecting* means the leader sacrificed their own goals, but followers are still winning.
-   - *Lose-Lose* means both sides lose — the goal is not achieved, AND followers are not developing or growing.
-   Use the vision alignment answer and stated values to contextualize the style — help them see whether their actions matched their intentions.
-3. **Your Coaching Plan:** Frame this as a supportive path forward. Give 3 practical, plain-language steps mapped to the three needs:
-   - One tip to enhance *Competence* (e.g., spend 30 seconds explaining context and learning opportunity)
-   - One tip to enhance *Autonomy* (e.g., ask "How would you approach this?" instead of just assigning)
-   - One tip to enhance *Relatedness* (e.g., connect the task to the team's shared mission and offer support)
-   Keep suggestions concrete, usable, and tied to their specific situation.
+1. **Motivation Capacity Analysis:** Start by connecting and appreciating their intent. Use phrases like 'I hear that...' or 'It's clear that...'. Then, analyze their actions using plain language: Did people feel **capable**? Did they feel **ownership**? Did they feel **connected** to the purpose? If they faced resistance, include how their response affected these feelings. Avoid academic jargon—just describe what happened in everyday words.
+2. **Leadership Style:** Based on the analysis, identify the style using the SFGAL terms: **Win-Win, Self-Oriented, Self-Neglecting, or Lose-Lose**. Be precise:
+   * **Win-Win** means both the leader's goals AND the followers' needs (growth, development, motivation) are served.
+   * **Self-Oriented** means the leader focused on achieving the goal but overlooked the team's intrinsic motivation needs.
+   * **Self-Neglecting** means the leader sacrifices their own goals, but followers are still winning (developing, growing, achieving).
+   * **Lose-Lose** means both sides lose — the goal is not achieved, AND followers are not developing or growing from the experience. If the leader accepted disengagement without response and no one grew, that is Lose-Lose.
+   If the leader used constructive firmness to protect the goal while still respecting the person, acknowledge this as a Win-Win approach. If the toughness was reactive or one-sided, name the style with empathy.
+3. **Your Coaching Plan:** Frame this as a supportive path forward. Give 3-4 practical, plain-language steps. If the leader faced disengagement, include suggestions like: 'Name the gap directly, then ask what they need to succeed' or 'Set a clear expectation, then follow up with genuine curiosity about what is getting in the way.' Keep suggestions concrete and usable.
 
-Keep the total analysis under 600 words, and keep the tone warm throughout. Write in the same language the user's answers are written in.`;
+Keep the total analysis under 450 words, and keep the tone warm throughout.
+
+CRITICAL: You MUST write your entire response in the language specified by the "Response language" field in the user message. If it says English, write in English. If it says Turkish, write in Turkish. If it says Hungarian, write in Hungarian. Do NOT switch languages based on any non-English terms in this prompt — those are model terminology only.`;
 
 // Step definitions with translations — aligned with Landbot flow
 const steps = [
@@ -51,9 +47,9 @@ const steps = [
   {
     id: 'leader_urgency',
     type: 'range',
-    en: { question: 'How urgent was achieving this goal for you personally, on a scale of 1-10?' },
-    tr: { question: 'Bu hedefe ulaşmak sizin için kişisel olarak ne kadar aciliyet taşıyordu? (1-10 arası)' },
-    hu: { question: 'Mennyire volt sürgős számodra személyesen ennek a célnak az elérése? (1-10 skálán)' },
+    en: { question: 'How important was this goal for you personally, on a scale of 1-10?' },
+    tr: { question: 'Bu hedef sizin için kişisel olarak ne kadar önemliydi? (1-10 arası)' },
+    hu: { question: 'Mennyire volt fontos számodra személyesen ez a cél? (1-10 skálán)' },
   },
   {
     id: 'framing_for_team_benefit',
@@ -93,6 +89,21 @@ const steps = [
     hu: { question: 'Milyen mértékben tudtad motiválni a csapatodat, hogy nagy erőfeszítést tegyenek a cél eléréséért? (1-10 skálán)' },
   },
   {
+    id: 'toughness',
+    en: {
+      question: 'Did you face any disengagement, missed commitments, or disrespect from your team member(s)? If so, how did you handle it?',
+      placeholder: 'e.g., One team member kept missing deadlines, so I had a direct conversation about expectations...',
+    },
+    tr: {
+      question: 'Ekip üyelerinizden ilgisizlik, taahhütlerin yerine getirilmemesi veya saygısızlık gibi durumlarla karşılaştınız mı? Karşılaştıysanız, nasıl ele aldınız?',
+      placeholder: 'örn., Bir ekip üyesi sürekli teslim tarihlerini kaçırıyordu, bu yüzden beklentiler hakkında doğrudan bir görüşme yaptım...',
+    },
+    hu: {
+      question: 'Tapasztaltál-e elkötelezettség-hiányt, elmulasztott vállalásokat vagy tiszteletlenséget a csapattagjaid részéről? Ha igen, hogyan kezelted?',
+      placeholder: 'pl., Az egyik csapattag folyamatosan lekéste a határidőket, ezért közvetlen beszélgetést folytattam az elvárásokról...',
+    },
+  },
+  {
     id: 'achievement',
     en: {
       question: 'Was the goal ultimately achieved? Explain if it was fully or partially achieved, or if it was not achieved.',
@@ -124,17 +135,18 @@ const steps = [
   },
   {
     id: 'vision_alignment',
+    type: 'choice',
     en: {
       question: 'Did your approach in this situation feel aligned with your broader leadership vision?',
-      placeholder: 'e.g., Yes, I felt my actions reflected my values, though I could have communicated more...',
+      choices: ['Yes', 'No', "I don't know"],
     },
     tr: {
       question: 'Bu durumdaki yaklaşımınız, daha geniş liderlik vizyonunuzla örtüşüyor muydu?',
-      placeholder: 'örn., Evet, eylemlerimin değerlerimi yansıttığını hissettim, ama daha fazla iletişim kurabilirdim...',
+      choices: ['Evet', 'Hayır', 'Bilmiyorum'],
     },
     hu: {
       question: 'Úgy érezted, hogy a megközelítésed ebben a helyzetben összhangban volt a tágabb vezetői víziódddal?',
-      placeholder: 'pl., Igen, úgy éreztem, a tetteim tükrözték az értékeimet, bár többet kommunikálhattam volna...',
+      choices: ['Igen', 'Nem', 'Nem tudom'],
     },
   },
   {
@@ -284,6 +296,7 @@ class LeadershipCoach {
 
     this.messagesEl.appendChild(msg);
     this.messagesEl.scrollTop = this.messagesEl.scrollHeight;
+    msg.scrollIntoView({ behavior: 'smooth', block: 'end' });
     return bubble;
   }
 
@@ -320,6 +333,8 @@ class LeadershipCoach {
 
     if (step.type === 'range') {
       this.showRangeInput(step);
+    } else if (step.type === 'choice') {
+      this.showChoiceInput(step, stepData);
     } else {
       this.showTextInput(step, stepData);
     }
@@ -359,6 +374,25 @@ class LeadershipCoach {
     wrapper.appendChild(btn);
     this.inputArea.appendChild(wrapper);
     textarea.focus();
+  }
+
+  showChoiceInput(step, stepData) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'chat-choice-wrapper';
+
+    stepData.choices.forEach(choice => {
+      const btn = document.createElement('button');
+      btn.className = 'chat-btn chat-btn-choice';
+      btn.textContent = choice;
+      btn.addEventListener('click', () => {
+        this.answers[step.id] = choice;
+        this.addMessage(choice, 'user');
+        this.nextStep();
+      });
+      wrapper.appendChild(btn);
+    });
+
+    this.inputArea.appendChild(wrapper);
   }
 
   showRangeInput(step) {
@@ -404,7 +438,8 @@ class LeadershipCoach {
     this.inputArea.innerHTML = '';
     const thinkingBubble = this.addMessage(`<div class="thinking-dots">${this.t('thinking')}<span class="dots"><span>.</span><span>.</span><span>.</span></span></div>`);
 
-    const userMessage = `Goal: ${this.answers.leader_goal}. Urgency (1-10): ${this.answers.leader_urgency}. Framing for team benefit: ${this.answers.framing_for_team_benefit}. Team's emotional response: ${this.answers.team_emotional_response}. Motivation quality (1-10): ${this.answers.motivation_quality_score}. Achievement: ${this.answers.achievement}. Personal values: ${this.answers.leader_values}. Vision alignment: ${this.answers.vision_alignment}. Leadership vision: ${this.answers.leader_vision}. Team benefit: ${this.answers.team_benefit}. Leader benefit: ${this.answers.leader_benefit}. Organization benefit: ${this.answers.org_benefit}.`;
+    const langNames = { en: 'English', tr: 'Turkish', hu: 'Hungarian' };
+    const userMessage = `Response language: ${langNames[this.getLang()] || 'English'}.\n\nGoal: ${this.answers.leader_goal}. Importance (1-10): ${this.answers.leader_urgency}. Framing for team benefit: ${this.answers.framing_for_team_benefit}. Team's emotional response: ${this.answers.team_emotional_response}. Quality (1-10): ${this.answers.motivation_quality_score}. Toughness: ${this.answers.toughness}. Achievement: ${this.answers.achievement}. Personal values: ${this.answers.leader_values}. Vision alignment: ${this.answers.vision_alignment}. Leadership vision: ${this.answers.leader_vision}. Team benefit: ${this.answers.team_benefit}. Leader benefit: ${this.answers.leader_benefit}. Organization benefit: ${this.answers.org_benefit}.`;
 
     try {
       const response = await fetch(PROXY_URL, {
@@ -417,6 +452,8 @@ class LeadershipCoach {
           ],
           temperature: 0.7,
           max_tokens: 1200,
+          answers: this.answers,
+          language: this.getLang(),
         }),
       });
 

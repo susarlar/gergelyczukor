@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Coaching Sessions</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #242836;
+      --border: rgba(255,255,255,0.1);
+      --text: #e4e4e7;
+      --text-dim: #9ca3af;
+      --accent: #6366f1;
+      --accent-hover: #818cf8;
+      --green: #22c55e;
+      --red: #ef4444;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* Login */
+    .login-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .login-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem;
+      width: 360px;
+    }
+    .login-box h1 { font-size: 1.25rem; margin-bottom: 1.5rem; }
+    .login-box input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+    .login-box button {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .login-box button:hover { background: var(--accent-hover); }
+    .login-error { color: var(--red); font-size: 0.85rem; margin-top: 0.5rem; display: none; }
+
+    /* Dashboard */
+    .dashboard { display: none; }
+    .topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .topbar h1 { font-size: 1.1rem; font-weight: 600; }
+    .topbar .stats { color: var(--text-dim); font-size: 0.85rem; }
+    .logout-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      padding: 0.4rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .logout-btn:hover { color: var(--text); border-color: var(--text-dim); }
+
+    .content { display: flex; height: calc(100vh - 57px); }
+
+    /* Session list */
+    .session-list {
+      width: 340px;
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+    .session-item {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .session-item:hover { background: var(--surface2); }
+    .session-item.active { background: var(--surface2); border-left: 3px solid var(--accent); }
+    .session-item .date { font-size: 0.8rem; color: var(--text-dim); }
+    .session-item .preview {
+      font-size: 0.85rem;
+      margin-top: 0.35rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .session-item .meta { display: flex; gap: 0.5rem; align-items: center; margin-top: 0.25rem; }
+    .lang-badge {
+      font-size: 0.7rem;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .notes-badge {
+      font-size: 0.7rem;
+      background: var(--green);
+      color: #000;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .empty-list {
+      padding: 3rem 1.5rem;
+      text-align: center;
+      color: var(--text-dim);
+    }
+
+    /* Detail panel */
+    .detail-panel {
+      flex: 1;
+      overflow-y: auto;
+      padding: 2rem;
+    }
+    .detail-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: var(--text-dim);
+    }
+    .detail-section { margin-bottom: 2rem; }
+    .detail-section h2 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Answers grid */
+    .answers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .answer-card {
+      background: var(--surface2);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+    }
+    .answer-card .label {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-bottom: 0.3rem;
+      text-transform: capitalize;
+    }
+    .answer-card .value { font-size: 0.9rem; line-height: 1.4; }
+
+    /* Analysis */
+    .analysis-text {
+      background: var(--surface2);
+      border-radius: 8px;
+      padding: 1.25rem;
+      line-height: 1.6;
+      font-size: 0.9rem;
+    }
+    .analysis-text strong { color: var(--accent-hover); }
+
+    /* Coach notes */
+    .notes-area {
+      width: 100%;
+      min-height: 120px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      padding: 1rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      resize: vertical;
+    }
+    .notes-actions { margin-top: 0.75rem; display: flex; gap: 0.75rem; align-items: center; }
+    .save-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1.25rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    .save-btn:hover { background: var(--accent-hover); }
+    .save-status { font-size: 0.8rem; color: var(--green); }
+
+    .delete-btn {
+      background: none;
+      border: 1px solid var(--red);
+      color: var(--red);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      margin-left: auto;
+    }
+    .delete-btn:hover { background: var(--red); color: #fff; }
+
+    @media (max-width: 768px) {
+      .content { flex-direction: column; height: auto; }
+      .session-list { width: 100%; border-right: none; border-bottom: 1px solid var(--border); max-height: 40vh; }
+      .answers-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-box">
+      <h1>Building Leaders Admin</h1>
+      <input type="password" id="tokenInput" placeholder="Enter admin token" autofocus>
+      <button onclick="login()">Sign In</button>
+      <div class="login-error" id="loginError">Invalid token</div>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="dashboard" id="dashboard">
+    <div class="topbar">
+      <div>
+        <h1>Coaching Sessions</h1>
+        <span class="stats" id="statsText"></span>
+      </div>
+      <button class="logout-btn" onclick="logout()">Sign Out</button>
+    </div>
+    <div class="content">
+      <div class="session-list" id="sessionList">
+        <div class="empty-list">Loading...</div>
+      </div>
+      <div class="detail-panel" id="detailPanel">
+        <div class="detail-placeholder">Select a session to view details</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = 'https://gergelyczukor.onrender.com';
+    let token = sessionStorage.getItem('admin_token') || '';
+    let sessions = [];
+
+    // Question labels for display
+    const questionLabels = {
+      leader_goal: 'Goal',
+      leader_urgency: 'Urgency (1-10)',
+      framing_for_team_benefit: 'Framing for Team',
+      team_emotional_response: 'Team Response',
+      motivation_quality_score: 'Motivation Score (1-10)',
+      toughness: 'Toughness (handling resistance)',
+      achievement: 'Achievement',
+      leader_values: 'Personal Values',
+      vision_alignment: 'Vision Alignment',
+      leader_vision: 'Leadership Vision',
+      team_benefit: 'Team Benefit',
+      leader_benefit: 'Leader Benefit',
+      org_benefit: 'Organization Benefit',
+    };
+
+    // Auto-login if token saved
+    if (token) showDashboard();
+
+    async function login() {
+      token = document.getElementById('tokenInput').value.trim();
+      if (!token) return;
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/sessions`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!res.ok) throw new Error();
+        sessionStorage.setItem('admin_token', token);
+        showDashboard();
+      } catch {
+        document.getElementById('loginError').style.display = 'block';
+      }
+    }
+
+    document.getElementById('tokenInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') login();
+    });
+
+    function logout() {
+      token = '';
+      sessionStorage.removeItem('admin_token');
+      document.getElementById('dashboard').style.display = 'none';
+      document.getElementById('loginScreen').style.display = 'flex';
+      document.getElementById('tokenInput').value = '';
+      document.getElementById('loginError').style.display = 'none';
+    }
+
+    async function showDashboard() {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+      await loadSessions();
+    }
+
+    async function loadSessions() {
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/sessions`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (res.status === 401) { logout(); return; }
+        sessions = await res.json();
+        renderList();
+      } catch {
+        document.getElementById('sessionList').innerHTML = '<div class="empty-list">Failed to load sessions</div>';
+      }
+    }
+
+    function renderList() {
+      const el = document.getElementById('sessionList');
+      document.getElementById('statsText').textContent = `${sessions.length} session${sessions.length !== 1 ? 's' : ''}`;
+
+      if (!sessions.length) {
+        el.innerHTML = '<div class="empty-list">No sessions yet. They\'ll appear here after users complete the chatbot.</div>';
+        return;
+      }
+
+      el.innerHTML = sessions.map(s => {
+        const date = new Date(s.created_at).toLocaleString();
+        const goal = s.answers?.leader_goal || 'No goal recorded';
+        return `
+          <div class="session-item" data-id="${s.id}" onclick="selectSession('${s.id}')">
+            <div class="date">${date}</div>
+            <div class="preview">${escapeHtml(goal)}</div>
+            <div class="meta">
+              <span class="lang-badge">${s.language || 'en'}</span>
+              ${s.coach_notes ? '<span class="notes-badge">Notes</span>' : ''}
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    async function selectSession(id) {
+      // Highlight active
+      document.querySelectorAll('.session-item').forEach(el => el.classList.remove('active'));
+      document.querySelector(`.session-item[data-id="${id}"]`)?.classList.add('active');
+
+      const panel = document.getElementById('detailPanel');
+      panel.innerHTML = '<div class="detail-placeholder">Loading...</div>';
+
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/sessions/${id}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const session = await res.json();
+        renderDetail(session);
+      } catch {
+        panel.innerHTML = '<div class="detail-placeholder">Failed to load session</div>';
+      }
+    }
+
+    function renderDetail(session) {
+      const panel = document.getElementById('detailPanel');
+      const date = new Date(session.created_at).toLocaleString();
+      const answers = session.answers || {};
+
+      const answersHtml = Object.entries(questionLabels).map(([key, label]) => {
+        const val = answers[key] || '-';
+        return `<div class="answer-card"><div class="label">${label}</div><div class="value">${escapeHtml(val)}</div></div>`;
+      }).join('');
+
+      const analysisHtml = session.analysis
+        ? formatAnalysis(session.analysis)
+        : '<em style="color:var(--text-dim)">No analysis generated</em>';
+
+      panel.innerHTML = `
+        <div class="detail-section">
+          <h2>Session - ${date} (${(session.language || 'en').toUpperCase()})</h2>
+        </div>
+        <div class="detail-section">
+          <h2>User Answers</h2>
+          <div class="answers-grid">${answersHtml}</div>
+        </div>
+        <div class="detail-section">
+          <h2>AI Analysis</h2>
+          <div class="analysis-text">${analysisHtml}</div>
+        </div>
+        <div class="detail-section">
+          <h2>Your Coach Notes</h2>
+          <textarea class="notes-area" id="notesArea" placeholder="Add your feedback or notes about this session...">${escapeHtml(session.coach_notes || '')}</textarea>
+          <div class="notes-actions">
+            <button class="save-btn" onclick="saveNotes('${session.id}')">Save Notes</button>
+            <span class="save-status" id="saveStatus"></span>
+            <button class="delete-btn" onclick="deleteSession('${session.id}')">Delete Session</button>
+          </div>
+        </div>`;
+    }
+
+    async function saveNotes(id) {
+      const notes = document.getElementById('notesArea').value;
+      const status = document.getElementById('saveStatus');
+      try {
+        await fetch(`${API_BASE}/api/admin/sessions/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ coach_notes: notes }),
+        });
+        status.textContent = 'Saved!';
+        // Update local list
+        const s = sessions.find(s => s.id === id);
+        if (s) s.coach_notes = notes;
+        renderList();
+        document.querySelector(`.session-item[data-id="${id}"]`)?.classList.add('active');
+        setTimeout(() => status.textContent = '', 2000);
+      } catch {
+        status.textContent = 'Failed to save';
+        status.style.color = 'var(--red)';
+      }
+    }
+
+    async function deleteSession(id) {
+      if (!confirm('Delete this session? This cannot be undone.')) return;
+      try {
+        await fetch(`${API_BASE}/api/admin/sessions/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` },
+        });
+        sessions = sessions.filter(s => s.id !== id);
+        renderList();
+        document.getElementById('detailPanel').innerHTML = '<div class="detail-placeholder">Session deleted</div>';
+      } catch {
+        alert('Failed to delete session');
+      }
+    }
+
+    function formatAnalysis(text) {
+      return text
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em>$1</em>')
+        .replace(/^### (.+)$/gm, '<h4 style="margin:0.75rem 0 0.25rem">$1</h4>')
+        .replace(/^## (.+)$/gm, '<h3 style="margin:1rem 0 0.25rem">$1</h3>')
+        .replace(/^- (.+)$/gm, '<li>$1</li>')
+        .replace(/(<li>.*<\/li>)/gs, '<ul style="margin:0.5rem 0 0.5rem 1.25rem">$1</ul>')
+        .replace(/<\/ul>\s*<ul[^>]*>/g, '')
+        .replace(/\n\n/g, '<br><br>')
+        .replace(/\n/g, '<br>');
+    }
+
+    function escapeHtml(str) {
+      const d = document.createElement('div');
+      d.textContent = str;
+      return d.innerHTML;
+    }
+  </script>
+</body>
+</html>

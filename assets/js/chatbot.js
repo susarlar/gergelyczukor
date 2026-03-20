@@ -216,6 +216,7 @@ class LeadershipCoach {
     this.container = containerEl;
     this.currentStep = -1; // -1 = welcome
     this.answers = {};
+    this.consent = true;
     this.lang = currentLang || 'en';
     this.init();
   }
@@ -245,6 +246,7 @@ class LeadershipCoach {
     const labels = {
       en: {
         welcome: "Welcome! I'm your AI Leadership Coach. I'll ask you a series of questions about a recent leadership experience, then generate a personalized AI analysis based on the SFGAL model.",
+        consent: 'I agree to have my responses stored for coaching review',
         start: 'Start Analysis',
         next: 'Next',
         submit: 'Get My Analysis',
@@ -255,6 +257,7 @@ class LeadershipCoach {
       },
       tr: {
         welcome: "Hoş geldiniz! Ben yapay zeka destekli liderlik koçunuzum. Size yakın zamanda yaşadığınız bir liderlik deneyimiyle ilgili bir dizi soru soracağım, ardından SFGAL modeline dayalı kişiselleştirilmiş yapay zeka analizinizi oluşturacağım.",
+        consent: 'Yanıtlarımın koçluk değerlendirmesi için saklanmasını kabul ediyorum',
         start: 'Başlayalım',
         next: 'Devam',
         submit: 'Analizimi Göster',
@@ -265,6 +268,7 @@ class LeadershipCoach {
       },
       hu: {
         welcome: "Üdvözlöm! Én vagyok az MI Vezetői Coachod. Felteszek egy sor kérdést egy közelmúltbeli vezetői tapasztalatodról, majd személyre szabott MI elemzést készítek az SFGAL modell alapján.",
+        consent: 'Hozzájárulok, hogy válaszaimat coaching célú áttekintésre tárolják',
         start: 'Elemzés Indítása',
         next: 'Következő',
         submit: 'Elemzés Kérése',
@@ -305,6 +309,20 @@ class LeadershipCoach {
     this.addMessage(this.t('welcome'));
 
     this.inputArea.innerHTML = '';
+
+    // Consent checkbox
+    const consentLabel = document.createElement('label');
+    consentLabel.className = 'chat-consent';
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.checked = true;
+    checkbox.addEventListener('change', () => {
+      this.consent = checkbox.checked;
+    });
+    consentLabel.appendChild(checkbox);
+    consentLabel.appendChild(document.createTextNode(' ' + this.t('consent')));
+    this.inputArea.appendChild(consentLabel);
+
     const btn = document.createElement('button');
     btn.className = 'chat-btn chat-btn-primary';
     btn.textContent = this.t('start');
@@ -455,6 +473,7 @@ class LeadershipCoach {
           max_tokens: 1200,
           answers: this.answers,
           language: this.getLang(),
+          consent: this.consent,
         }),
       });
 
@@ -478,6 +497,7 @@ class LeadershipCoach {
     btn.addEventListener('click', () => {
       this.currentStep = -1;
       this.answers = {};
+      this.consent = true;
       this.init();
     });
     this.inputArea.appendChild(btn);

@@ -18,6 +18,7 @@ const supabase = SUPABASE_URL && SUPABASE_KEY
 // Simple admin auth
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN;
 
+
 function requireAdmin(req, res, next) {
   if (!ADMIN_TOKEN) return res.status(503).json({ error: 'Admin not configured' });
   const auth = req.headers.authorization;
@@ -41,7 +42,7 @@ app.post('/api/coach', async (req, res) => {
     return res.status(500).json({ error: 'API key not configured' });
   }
 
-  const { messages, temperature = 0.7, max_tokens = 1200, answers, language } = req.body;
+  const { messages, temperature = 0.7, max_tokens = 1200, answers, language, consent } = req.body;
 
   if (!messages || !Array.isArray(messages)) {
     return res.status(400).json({ error: 'messages array is required' });
@@ -72,8 +73,8 @@ app.post('/api/coach', async (req, res) => {
     const data = await response.json();
     const analysis = data.choices?.[0]?.message?.content || null;
 
-    // Save to Supabase in background (don't block the response)
-    if (supabase && answers) {
+    // Save to Supabase in background (only if user consented)
+    if (supabase && answers && consent !== false) {
       supabase.from('sessions').insert({
         language: language || 'en',
         answers,

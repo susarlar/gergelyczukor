@@ -296,7 +296,6 @@ class LeadershipCoach {
 
     this.messagesEl.appendChild(msg);
     this.messagesEl.scrollTop = this.messagesEl.scrollHeight;
-    msg.scrollIntoView({ behavior: 'smooth', block: 'end' });
     return bubble;
   }
 

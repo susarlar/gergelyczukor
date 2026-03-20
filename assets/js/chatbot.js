@@ -295,7 +295,9 @@ class LeadershipCoach {
     msg.appendChild(bubble);
 
     this.messagesEl.appendChild(msg);
-    this.messagesEl.scrollTop = this.messagesEl.scrollHeight;
+    requestAnimationFrame(() => {
+      this.messagesEl.scrollTop = this.messagesEl.scrollHeight;
+    });
     return bubble;
   }
 

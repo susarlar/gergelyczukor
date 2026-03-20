@@ -297,10 +297,19 @@
         const res = await fetch(`${API_BASE}/api/admin/sessions`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
-        if (!res.ok) throw new Error();
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          const msg = res.status === 401 ? 'Invalid token'
+            : res.status === 503 ? 'Supabase not configured on server'
+            : err.error || 'Server error';
+          document.getElementById('loginError').textContent = msg;
+          document.getElementById('loginError').style.display = 'block';
+          return;
+        }
         sessionStorage.setItem('admin_token', token);
         showDashboard();
       } catch {
+        document.getElementById('loginError').textContent = 'Cannot reach server';
         document.getElementById('loginError').style.display = 'block';
       }
     }
